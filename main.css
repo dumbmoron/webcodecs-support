@@ -1,0 +1,50 @@
+body {
+    max-width: 768px;
+    padding: 16px;
+    margin: 0;
+    font-family: monospace;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+#results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding-bottom: 32px;
+}
+
+.green {
+    background: #97FBD1;
+}
+
+.red {
+    background: #fb9797;
+}
+
+td {
+    text-align: center;
+}
+
+th[scope=row] {
+    text-align: right;
+}
+
+td, th {
+    padding: .5em;
+}
+
+details summary {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+details summary > * {
+  display: inline;
+}
+
+button {
+    width: 128px;
+}

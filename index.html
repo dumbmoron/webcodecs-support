@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>webcodecs-support</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <h1>webcodecs-support</h1>
+        <div id="results-container"></div>
+        <script src="main.js"></script>
+        <script>
+            const container = document.querySelector('#results-container');
+            compute().then(results => {
+                const make = x => document.createElement(x);
+                {
+                    const button = make('button');
+                    button.textContent = 'click to copy data';
+                    button.href = '#';
+                    button.onclick = () => {
+                        window.navigator.clipboard.writeText(JSON.stringify(results, null, 4));
+                    }
+                    container.appendChild(button);
+                }
+
+                for (const group in results) {
+                    const details = make('details');
+                    {
+                        const summary = make('summary');
+                        summary.textContent = group;
+                        details.appendChild(summary);
+                    }
+                    {
+                        const table = make('table');
+                        const heading = (body, scope = 'col') => {
+                            const th = make('th');
+                            th.scope = scope;
+                            th.textContent = body;
+                            return th;
+                        }
+
+                        {
+                            const thead = make('thead');
+                            thead.appendChild(heading());
+                            const interfaces = Object.values(results[group])[0].supports;
+                            for (const interface in interfaces) {
+                                thead.appendChild(heading(interface))
+                            }
+                            table.appendChild(thead);
+                        }
+
+                        {
+                            const tbody = make('tbody');
+                            for (const { codec, supports } of results[group]) {
+                                const tr = make('tr');
+                                tr.appendChild(heading(codec, 'row'));
+                                for (const status of Object.values(supports)) {
+                                    const td = make('td');
+                                    td.className = status ? 'green' : 'red';
+                                    td.textContent = status === true ? 'ok' : status === null ? 'invalid' : 'unsupported';
+                                    tr.appendChild(td);
+                                }
+                                tbody.appendChild(tr);
+                            }
+                            table.appendChild(tbody);
+                        }
+                        details.appendChild(table);
+                    }
+
+                    container.appendChild(details);
+                }
+            });
+        </script>
+    </body>
+</html>
