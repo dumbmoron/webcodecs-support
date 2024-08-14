@@ -3,6 +3,7 @@
     <head>
         <title>webcodecs-support</title>
         <link rel="stylesheet" href="main.css">
+        <meta charset="UTF-8">
     </head>
     <body>
         <h1>webcodecs-support</h1>
@@ -20,6 +21,14 @@
                         window.navigator.clipboard.writeText(JSON.stringify(results, null, 4));
                     }
                     container.appendChild(button);
+                }
+                {
+                    for (const medium of ['Video', 'Audio'])
+                        for (const action of ['Decoder', 'Encoder'])
+                            if (!window[medium + action]) {
+                                container.innerHTML +=
+                                    `<p class="red">⚠️ ${medium + action} is unavailable</p>`;
+                            }
                 }
 
                 for (const group in results) {

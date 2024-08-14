@@ -48,3 +48,11 @@ details summary > * {
 button {
     width: 128px;
 }
+
+p {
+    font-weight: bold;
+    margin: 0;
+    padding: 5px;
+    color: #222;
+    max-width: fit-content;
+}

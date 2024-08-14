@@ -3,7 +3,7 @@ const load = async url => fetch(url).then(a => a.json());
 
 const supportsCodec = async (type, data) => {
     try {
-        const result = await type.isConfigSupported(data);
+        const result = await window[type].isConfigSupported(data);
         if (result.supported) {
             return true;
         }
@@ -16,19 +16,19 @@ const supportsVideoCodec = async (codec) => {
     const resolutions = [[1, 1], [64, 64], [640, 360], [1920, 1080]];
 
     const supports = {};
-    for (const type of [ VideoDecoder, VideoEncoder ]) {
-        supports[type.name] = false;
+    for (const type of [ 'VideoDecoder', 'VideoEncoder' ]) {
+        supports[type] = false;
 
         for (const [ width, height ] of resolutions) {
             try {
                 const ok = await supportsCodec(type, { codec, width, height });
 
                 if (ok) {
-                    supports[type.name] = true;
+                    supports[type] = true;
                     break;
                 }
             } catch {
-                supports[type.name] = null;
+                supports[type] = null;
             }
         }
     }
@@ -40,8 +40,8 @@ const supportsAudioCodec = async (codec) => {
     const sampleRates = [16000, 22050, 44100, 48000];
 
     const supports = {};
-    for (const type of [ AudioDecoder, AudioEncoder ]) {
-        supports[type.name] = false;
+    for (const type of [ 'AudioDecoder', 'AudioEncoder' ]) {
+        supports[type] = false;
 
         for (const sampleRate of sampleRates) {
             try {
@@ -50,7 +50,7 @@ const supportsAudioCodec = async (codec) => {
                 });
 
                 if (ok) {
-                    supports[type.name] = true;
+                    supports[type] = true;
                     break;
                 }
             } catch {}
