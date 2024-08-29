@@ -56,3 +56,7 @@ p {
     color: #222;
     max-width: fit-content;
 }
+
+.video-options input {
+    width: 50px;
+}

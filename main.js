@@ -12,8 +12,17 @@ const supportsCodec = async (type, data) => {
     return false;
 }
 
+const getManualResolution = () => {
+    const w = +document.querySelector('.video-width').value;
+    const h = +document.querySelector('.video-height').value;
+
+    if (w && h && !isNaN(w) && !isNaN(h))
+        return [w, h];
+}
+
 const supportsVideoCodec = async (codec) => {
-    const resolutions = [[1, 1], [64, 64], [640, 360], [1920, 1080]];
+    const manual = getManualResolution();
+    const resolutions = manual ? [ manual ] : [[1, 1], [64, 64], [640, 360], [1920, 1080]];
 
     const supports = {};
     for (const type of [ 'VideoDecoder', 'VideoEncoder' ]) {

@@ -8,11 +8,18 @@
     </head>
     <body>
         <h1>webcodecs-support</h1>
+        <div class="video-options">
+            (optional)
+            <input class="video-width" placeholder="width" />
+            x
+            <input class="video-height" placeholder="height" />
+        </div>
         <div id="results-container"></div>
         <script src="main.js"></script>
         <script>
             const container = document.querySelector('#results-container');
-            compute().then(results => {
+            const run = () => compute().then(results => {
+                container.innerHTML = '';
                 const make = x => document.createElement(x);
                 {
                     const button = make('button');
@@ -79,6 +86,13 @@
                     container.appendChild(details);
                 }
             });
+
+            run();
+            document.querySelector('.video-width').onkeydown = document.querySelector('.video-height').onkeydown = () => {
+                if (getManualResolution()) {
+                    run();
+                }
+            }
         </script>
     </body>
 </html>
