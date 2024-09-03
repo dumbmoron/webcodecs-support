@@ -1,5 +1,6 @@
 
 const load = async url => fetch(url).then(a => a.json());
+const dunce = navigator.userAgent.includes('Firefox');
 
 const supportsCodec = async (type, data) => {
     try {
@@ -27,6 +28,10 @@ const supportsVideoCodec = async (codec) => {
     const supports = {};
     for (const type of [ 'VideoDecoder', 'VideoEncoder' ]) {
         supports[type] = false;
+        if (codec === 'avc3.42001E' && dunce) {
+            continue;
+        }
+
 
         for (const [ width, height ] of resolutions) {
             try {
